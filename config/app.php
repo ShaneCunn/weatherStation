@@ -160,6 +160,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+
+        Naughtonium\LaravelDarkSky\LaravelDarkSkyServiceProvider::class,
+        Stevebauman\Location\LocationServiceProvider::class,
     ],
 
     /*
@@ -209,6 +212,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+
+        'DarkSky' => \Naughtonium\LaravelDarkSky\Facades\DarkSky::class,
+        'Location' => Stevebauman\Location\Facades\Location::class,
     ],
 
 ];
