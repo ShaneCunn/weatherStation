@@ -61,7 +61,13 @@ class WeatherController extends Controller
 
 
             $dayofWeek = date('l jS', strtotime(Carbon::createFromTimestamp($weatherDaily->daily->data[$count]->time)->subDay()));
+            $dayofWeekday = date('l', strtotime(Carbon::createFromTimestamp($weatherDaily->daily->data[$count]->time)->subDay()));
+
+
             $date = date('d/m/y', strtotime(Carbon::createFromTimestamp($weatherDaily->daily->data[$count]->time)->subDay()));
+
+            $sunrise = date('h:i', strtotime(Carbon::createFromTimestamp($weatherDaily->daily->data[$count]->sunriseTime)->subDay()));
+            $sunset = date('h:i', strtotime(Carbon::createFromTimestamp($weatherDaily->daily->data[$count]->sunsetTime)->subDay()));
 
             $dailysummarytext = $weatherDaily->daily->data[$count]->summary;
 
@@ -81,20 +87,21 @@ class WeatherController extends Controller
 
 
             $dailySummary[] = array('summary' => $dailysummarytext, 'day' => $dayofWeek, 'date' => $date, 'humidity' => $humidity,
-                'low' => $lowTemp, 'high' => $highTemp, 'icon' => $iconNumber);
+                'low' => $lowTemp, 'high' => $highTemp, 'icon' => $iconNumber, 'weekDay' => $dayofWeekday, 'sunrise'=> $sunrise,'sunset'=>$sunset);
 
             // dd($dailySummary);
             $dailyDay[] = $dayofWeek;
 
 
         }
-        //  dd($dailySummary);
+       //  dd($dailySummary[0]['sunrise']);
 
-        /*   foreach ($dailySummary as $key => $value) {
-               echo $value{'summary'};
-               echo $value{'day'} . '<br>';
+       /* foreach ($dailySummary as $key => $value) {
+            echo $value{'summary'};
+            echo $value{'day'} . '<br>';
+            echo $value{'weekDay'} . '<br>';
 
-           }*/
+        }*/
         // dd($dailyDay);
         $direction = null;
 
