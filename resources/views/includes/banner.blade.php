@@ -45,8 +45,8 @@
                 </div>
 
                 <div class="wn-box-condition-row"><img src="{{asset('assets/images/icons/conditions/direction.svg')}}"
-                                                       style="transform: rotate(170deg);">
-                    <div class="wn-conditions-text">Wind direction: {{$direction}}</div>
+                                                       style="transform: rotate({{$degree}}deg);">
+                    <div class="wn-conditions-text">Wind direction: {{$degree}}°</div>
                 </div>
             </div>
         </div>

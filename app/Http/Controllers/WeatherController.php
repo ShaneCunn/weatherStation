@@ -30,11 +30,12 @@ class WeatherController extends Controller
             $ip = \Request::ip();
 
         }
-
+//+latitude: "53.2519"
+//  +longitude: "-9.1497"
         //  DarkSky::location(lat, lon)->get();
         $position = \Location::get($ip);
 
-        // dd($position);
+       // dd($position);
         $location = $position->cityName;
 
         //dd($location);
@@ -43,18 +44,17 @@ class WeatherController extends Controller
 
         $units = 'si';
         $now = \DarkSky::location($lat, $long)->includes(['currently'])->units($units)->get();
-        $windspeed = $now->currently->windSpeed;
+        $windspeed = round($now->currently->windSpeed, 1);
         $humidity = ($now->currently->humidity) * 100;
         $summary = $now->currently->summary;
-        $temp = round($now->currently->temperature, 1);
+        $temp = round($now->currently->temperature, 0);
+        $degree = $now->currently->windBearing;
 
         //  dd($windspeed);
         $weather = \DarkSky::location($lat, $long)->get();
 
         $weatherDaily = \DarkSky::location($lat, $long)->includes(['daily'])->get();
-        $test3[] = $weatherDaily->daily->data['0']->summary;
 
-        $test7[] = $weatherDaily->daily->data;
 
         $dailySummary = array();
         for ($count = 2; $count <= 6; $count++) {
@@ -86,7 +86,8 @@ class WeatherController extends Controller
 
 
             $dailySummary[] = array('summary' => $dailysummarytext, 'day' => $dayofWeek, 'date' => $date, 'humidity' => $humidity,
-                'low' => $lowTemp, 'high' => $highTemp, 'icon' => $iconNumber, 'weekDay' => $dayofWeekday, 'sunrise' => $sunrise, 'sunset' => $sunset);
+                'low' => $lowTemp, 'high' => $highTemp, 'icon' => $iconNumber, 'weekDay' => $dayofWeekday,
+                'sunrise' => $sunrise, 'sunset' => $sunset);
 
             // dd($dailySummary);
             $dailyDay[] = $dayofWeek;
@@ -138,7 +139,7 @@ class WeatherController extends Controller
         return view('weather.master', ['time' => $currrentTime, 'title' => $title, 'loc' => $location,
             'lat' => $lat, 'long' => $long, 'weather' => $weather, 'direction' => $direction, 'ip' => $ip,
             'dailyS' => $dailySummary, 'days' => $dailyDay, 'windspeed' => $windspeed, 'humidity' => $humidity,
-            'summary' => $summary, 'temp' => $temp,]);
+            'summary' => $summary, 'temp' => $temp, 'degree' => $degree]);
 
 
     }
