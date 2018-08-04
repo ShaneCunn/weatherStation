@@ -79,29 +79,28 @@ class WeatherController extends Controller
 
             $icon = $weatherDaily->daily->data[$count]->icon;
 
-            //  dd($icon);
-            //  clear-day clear-night rain snow sleet wind fog cloudy partly-cloudy-day partly-cloudy-night ,hail, thunderstorm
+
             $iconNumber = null;
 
             $iconNumber = $this->weatherIcon($icon);
 
 
             $dailySummary[] = array('summary' => $dailysummarytext, 'day' => $dayofWeek, 'date' => $date, 'humidity' => $humidity,
-                'low' => $lowTemp, 'high' => $highTemp, 'icon' => $iconNumber, 'weekDay' => $dayofWeekday, 'sunrise'=> $sunrise,'sunset'=>$sunset);
+                'low' => $lowTemp, 'high' => $highTemp, 'icon' => $iconNumber, 'weekDay' => $dayofWeekday, 'sunrise' => $sunrise, 'sunset' => $sunset);
 
             // dd($dailySummary);
             $dailyDay[] = $dayofWeek;
 
 
         }
-       //  dd($dailySummary[0]['sunrise']);
+        //  dd($dailySummary[0]['sunrise']);
 
-       /* foreach ($dailySummary as $key => $value) {
-            echo $value{'summary'};
-            echo $value{'day'} . '<br>';
-            echo $value{'weekDay'} . '<br>';
+        /* foreach ($dailySummary as $key => $value) {
+             echo $value{'summary'};
+             echo $value{'day'} . '<br>';
+             echo $value{'weekDay'} . '<br>';
 
-        }*/
+         }*/
         // dd($dailyDay);
         $direction = null;
 

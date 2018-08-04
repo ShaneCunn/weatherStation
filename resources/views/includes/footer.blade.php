@@ -4,7 +4,6 @@
         <div class="wi-content">
             <div class="wi-item">
                 <div class="wi-icon">
-                  
                     <img src="{{asset('assets/images/icons/sunrise.svg')}}" class="wf-icon">
                 </div>
                 <div class="wi-description">
