@@ -39,7 +39,14 @@ class WeatherController extends Controller
         $lat = $position->latitude;
         $long = $position->longitude;
 
+        $units = 'si';
+        $now = \DarkSky::location($lat, $long)->includes(['currently'])->units($units)->get();
+        $windspeed = $now->currently->windSpeed;
+        $humidity = ($now->currently->humidity) * 100;
+        $summary = $now->currently->summary;
+        $temp = round($now->currently->temperature, 1);
 
+        //  dd($windspeed);
         $weather = \DarkSky::location($lat, $long)->get();
 
         $weatherDaily = \DarkSky::location($lat, $long)->includes(['daily'])->get();
@@ -94,10 +101,12 @@ class WeatherController extends Controller
         $direction = windRose($bearing);
         // dd($direction);
 
-                return view('weather.master', ['time' => $currrentTime, 'title' => $title, 'loc' => $location,
-                    'lat' => $lat, 'long' => $long, 'weather' => $weather, 'direction' => $direction,
-                    'ip' => $ip, 'dailyS' => $dailySummary, 'days' => $dailyDay]);
 
+    
+        return view('weather.master', ['time' => $currrentTime, 'title' => $title, 'loc' => $location,
+            'lat' => $lat, 'long' => $long, 'weather' => $weather, 'direction' => $direction, 'ip' => $ip,
+            'dailyS' => $dailySummary, 'days' => $dailyDay, 'windspeed' => $windspeed, 'humidity' => $humidity,
+            'summary' => $summary, 'temp' => $temp]);
 
 
     }
