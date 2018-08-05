@@ -11,3 +11,13 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .env
+
+weatherStation/\.idea/misc\.xml
+
+weatherStation/\.idea/modules\.xml
+
+weatherStation/\.idea/vcs\.xml
+
+weatherStation/\.idea/weatherStation\.iml
+
+weatherStation/\.idea/workspace\.xml
