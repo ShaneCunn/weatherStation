@@ -4,7 +4,6 @@
         <div class="wi-content">
             <div class="wi-item">
                 <div class="wi-icon">
-                    {{asset('')}}
                     <img src="{{asset('assets/images/icons/sunrise.svg')}}" class="wf-icon">
                 </div>
                 <div class="wi-description">
@@ -12,7 +11,7 @@
                         Sunrise
                     </div>
                     <div class="wi-value">
-                        04:54
+                        {{$dailyS[0]['sunrise']}}
                     </div>
                 </div>
             </div>
@@ -25,7 +24,7 @@
                         Sunset
                     </div>
                     <div class="wi-value">
-                        20:29
+                        {{$dailyS[0]['sunset']}}
                     </div>
                 </div>
             </div>
