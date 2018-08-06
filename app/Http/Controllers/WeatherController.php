@@ -151,12 +151,7 @@ class WeatherController extends Controller
     public function getModel()
     {
 
-
-        //   include (app_path(). '\Classes\weatherTest.php');
-
         $weatherClass = new WeatherClass();
-
-        $weather = $weatherClass->getPrices();
 
         $forecast = $weatherClass->getWeather();
 

@@ -17,37 +17,13 @@ use GuzzleHttp\Client;
 
 class WeatherClass
 {
-    public function getPrices()
-    {
-        return ['bronze' => 50, 'silver' => 100, 'gold' => 150];
-
-
-    }
 
 
     public function getWeather()
     {
 
 
-        $currrentTime = Carbon::now()->toDayDateTimeString();
-        $title = 'weather page';
-        $ip = \Request::ip();
-
-        if ($ip == "127.0.0.1") {
-
-            $ip = '86.44.136.190';
-        } else {
-
-            $ip = \Request::ip();
-
-        }
-
-        $position = \Location::get($ip);
-
-        $location = $position->cityName;
-
-        $lat = $position->latitude;
-        $long = $position->longitude;
+        list($currrentTime, $title, $ip, $location, $lat, $long) = $this->getLocation();
 
         $units = 'si';
         $now = \DarkSky::location($lat, $long)->includes(['currently'])->units($units)->get();
@@ -59,9 +35,6 @@ class WeatherClass
 
         $icon = $now->currently->icon;
 
-        //   $currentIcon = $this->Geticon($iconCurrently);
-        $currentIcon = '';
-        //$icon = 'hail';
 
         switch ($icon) {
 
@@ -108,7 +81,6 @@ class WeatherClass
         }
 
 
-        $weather = \DarkSky::location($lat, $long)->get();
 
         $weatherDaily = \DarkSky::location($lat, $long)->includes(['daily'])->get();
 
@@ -186,51 +158,48 @@ class WeatherClass
 
             }
 
-
             $dailySummary[] = array('summary' => $dailysummarytext, 'day' => $dayofWeek, 'date' => $date, 'humidity' => $humidity,
                 'low' => $lowTemp, 'high' => $highTemp, 'icon' => $iconNumber, 'weekDay' => $dayofWeekday,
                 'sunrise' => $sunrise, 'sunset' => $sunset,);
 
 
-
         }
 
 
-        $direction = null;
 
-        $bearing = $weather->currently->windBearing;
-
-
-        function windRose($item)
-        {
-            $winddir[] = "North";
-            $winddir[] = "North North East";
-            $winddir[] = "North East";
-            $winddir[] = "East North East";
-            $winddir[] = "East";
-            $winddir[] = "East South East";
-            $winddir[] = "South East";
-            $winddir[] = "South South East";
-            $winddir[] = "South";
-            $winddir[] = "South South West";
-            $winddir[] = "South West";
-            $winddir[] = "West South West";
-            $winddir[] = "West";
-            $winddir[] = "West North West";
-            $winddir[] = "North West";
-            $winddir[] = "North North West";
-            $winddir[] = "North";
-            return $winddir[round($item * 16 / 360)];
-        }
-
-        //  dd($currentIcon);
-        $direction = windRose($bearing);
 
         return (['time' => $currrentTime, 'title' => $title, 'loc' => $location,
-            'lat' => $lat, 'long' => $long, 'weather' => $weather, 'direction' => $direction, 'ip' => $ip,
+            'lat' => $lat, 'long' => $long,  'ip' => $ip,
             'dailyS' => $dailySummary,  'windspeed' => $windspeed, 'humidity' => $humidity,
             'summary' => $summary, 'temp' => $temp, 'degree' => $degree, 'currentIcon' => $currentIcon]);
 
+    }
+
+    /**
+     * @return array
+     */
+    public function getLocation(): array
+    {
+        $currrentTime = Carbon::now()->toDayDateTimeString();
+        $title = 'weather page';
+        $ip = \Request::ip();
+
+        if ($ip == "127.0.0.1") {
+
+            $ip = '86.44.136.190';
+        } else {
+
+            $ip = \Request::ip();
+
+        }
+
+        $position = \Location::get($ip);
+
+        $location = $position->cityName;
+
+        $lat = $position->latitude;
+        $long = $position->longitude;
+        return array($currrentTime, $title, $ip, $location, $lat, $long);
     }
 
 

@@ -19,6 +19,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/weather', 'WeatherController@index');
 
-Route::get('/model', 'WeatherController@getModel');
+
+Route::get('/weather', 'WeatherController@getModel');
