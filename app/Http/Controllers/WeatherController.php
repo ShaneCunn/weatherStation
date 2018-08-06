@@ -158,7 +158,9 @@ class WeatherController extends Controller
 
         $weather = $weatherClass->getPrices();
 
-        return view('model', compact('weather'));
+        $forecast = $weatherClass->getWeather();
+
+        return view('weather.master', compact('forecast'));
 
 
     }

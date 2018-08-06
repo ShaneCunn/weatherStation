@@ -8,13 +8,13 @@
                     new Chartist.Line('.ct-chart', {
                         // oldlabels: ['Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday',],
 
-                        labels: [ @foreach($dailyS as $key => $value)'{{$value['weekDay']}}', @endforeach],
+                        labels: [@foreach($forecast['dailyS'] as $key => $value)'{{$value['weekDay']}}', @endforeach],
 
-                            series: [
-                           // ['19', '20', '20', '21', '20',],
-                                [@foreach($dailyS as $key => $value)'{{$value['high']}}', @endforeach],
-                                [@foreach($dailyS as $key => $value)'{{$value['low']}}', @endforeach]
-                           // ['16', '15', '13', '11', '14',]
+                        series: [
+                            // ['19', '20', '20', '21', '20',],
+                            [@foreach($forecast['dailyS'] as $key => $value)'{{$value['high']}}', @endforeach],
+                            [@foreach($forecast['dailyS'] as $key => $value)'{{$value['low']}}', @endforeach]
+                            // ['16', '15', '13', '11', '14',]
                         ]
                     }, {
                         axisY: {

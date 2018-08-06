@@ -11,7 +11,7 @@
                         Sunrise
                     </div>
                     <div class="wi-value">
-                        {{$dailyS[0]['sunrise']}}
+                        {{$forecast['dailyS'][0]['sunrise']}}
                     </div>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                         Sunset
                     </div>
                     <div class="wi-value">
-                        {{$dailyS[0]['sunset']}}
+                        {{$forecast['dailyS'][0]['sunset']}}
                     </div>
                 </div>
             </div>

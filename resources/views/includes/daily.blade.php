@@ -2,7 +2,7 @@
     <div class="weather-forecast daily">
         <div class="wf-title">Daily Forecast</div>
         <div>
-            @foreach($dailyS as $key => $value)
+            @foreach($forecast['dailyS'] as $key => $value)
                 <a href="https://meteo.test/location/2964180/day/02" class="wf-list">
                     <div class="wf-list-col wf-date">
                         <div class="wf-day">{{$value['day']}}</div>

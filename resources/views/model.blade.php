@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div class="col-md-8"><p>{{$weather['bronze']}} </p></div>
+        <div class="col-md-8"><p>{{$forecast['title']}} </p></div>
     </div>
 </div>
 @endsection
