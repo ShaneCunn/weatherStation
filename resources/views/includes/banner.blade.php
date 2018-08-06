@@ -2,7 +2,7 @@
 
     <div class="row">
         <div
-            style="background-image: linear-gradient(var(--cover-top), var(--cover-bottom)), url('{{asset($forecast['currentIcon'])}}');"
+            style="background-image: linear-gradient(var(--cover-top), var(--cover-bottom)), url('{{asset($forecast['currentImage'])}}');"
             class="weather-now">
             <div class="wn-title">Weather
                 <form id="format">
