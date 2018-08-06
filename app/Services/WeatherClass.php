@@ -188,10 +188,9 @@ class WeatherClass
         $bearing = $weather->currently->windBearing;
 
 
-        $direction = windRose($bearing);
 
         return (['time' => $currrentTime, 'title' => $title, 'loc' => $location,
-            'lat' => $lat, 'long' => $long, 'weather' => $weather, 'direction' => $direction, 'ip' => $ip,
+            'lat' => $lat, 'long' => $long, 'weather' => $weather, 'ip' => $ip,
             'dailyS' => $dailySummary,  'windspeed' => $windspeed, 'humidity' => $humidity,
             'summary' => $summary, 'temp' => $temp, 'degree' => $degree, 'currentIcon' => $currentIcon]);
 
