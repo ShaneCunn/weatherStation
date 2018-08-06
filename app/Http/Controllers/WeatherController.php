@@ -10,6 +10,9 @@ use Naughtonium\LaravelDarkSky\DarkSky;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 
+use App\Services\WeatherClass;
+
+
 class WeatherController extends Controller
 {
 
@@ -35,7 +38,7 @@ class WeatherController extends Controller
         //  DarkSky::location(lat, lon)->get();
         $position = \Location::get($ip);
 
-       // dd($position);
+        // dd($position);
         $location = $position->cityName;
 
         //dd($location);
@@ -140,6 +143,22 @@ class WeatherController extends Controller
             'lat' => $lat, 'long' => $long, 'weather' => $weather, 'direction' => $direction, 'ip' => $ip,
             'dailyS' => $dailySummary, 'days' => $dailyDay, 'windspeed' => $windspeed, 'humidity' => $humidity,
             'summary' => $summary, 'temp' => $temp, 'degree' => $degree]);
+
+
+    }
+
+
+    public function getModel()
+    {
+
+
+        //   include (app_path(). '\Classes\weatherTest.php');
+
+        $weatherClass = new WeatherClass();
+
+        $weather = $weatherClass->getPrices();
+
+        return view('model', compact('weather'));
 
 
     }
