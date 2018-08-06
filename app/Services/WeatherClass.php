@@ -19,11 +19,15 @@ class WeatherClass
 {
 
 
-    public function getWeather()
+    public function getWeather($weatherClass)
     {
 
+        $lat = $weatherClass->getLocation()['lat'];
+        $long = $weatherClass->getLocation()['long'];
 
-        list($currrentTime, $title, $ip, $location, $lat, $long) = $this->getLocation();
+        $currentTime = $weatherClass->getLocation()['currentTime'];
+        $location = $weatherClass->getLocation()['city'];
+
 
         $units = 'si';
         $now = \DarkSky::location($lat, $long)->includes(['currently'])->units($units)->get();
@@ -39,47 +43,101 @@ class WeatherClass
         switch ($icon) {
 
             case  'clear-day':
-                $currentIcon = 'assets/images/weather/01.jpg';
+                $currentImage = 'assets/images/weather/01.jpg';
+                $currentIcon = 'assets/images/icons/weather/01.svg';
                 break;
             case  'clear-night':
-                $currentIcon = 'assets/images/weather/01.jpg';
+                $currentImage = 'assets/images/weather/01.jpg';
+                $currentIcon = 'assets/images/icons/weather/01.svg';
                 break;
             case  'partly-cloudy-day':
-                $currentIcon = 'assets/images/weather/02.jpg';
+                $currentImage = 'assets/images/weather/02.jpg';
+                $currentIcon = 'assets/images/icons/weather/02.svg';
                 break;
             case  'cloudy':
-                $currentIcon = 'assets/images/weather/04.jpg';
+                $currentImage = 'assets/images/weather/04.jpg';
                 break;
             case  'partly-cloudy-night':
-                $currentIcon = 'assets/images/weather/02.jpg';
+                $currentImage = 'assets/images/weather/02.jpg';
+                $currentIcon = 'assets/images/icons/weather/03.svg';
                 break;
             case  'rain':
-                $currentIcon = 'assets/images/weather/09.jpg';
+                $currentImage = 'assets/images/weather/09.jpg';
+                $currentIcon = 'assets/images/icons/weather/09.svg';
                 break;
             case  'snow':
-                $currentIcon = 'assets/images/weather/13.jpg';
+                $currentImage = 'assets/images/weather/13.jpg';
+                $currentIcon = 'assets/images/icons/weather/13.svg';
                 break;
             case  'sleet':
-                $currentIcon = 'assets/images/weather/104.jpg';
+                $currentImage = 'assets/images/weather/104.jpg';
+                $currentIcon = 'assets/images/icons/weather/13.svg';
                 break;
             case  'fog':
-                $currentIcon = 'assets/images/weather/50.jpg';
+                $currentImage = 'assets/images/weather/50.jpg';
+                $currentIcon = 'assets/images/icons/weather/50.svg';
                 break;
             case  'hail':
-                $currentIcon = 'assets/images/weather/104.jpg';
+                $currentImage = 'assets/images/weather/104.jpg';
+                $currentIcon = 'assets/images/icons/weather/104.svg';
                 break;
             case  'thunderstorm':
-                $currentIcon = 'assets/images/weather/11.jpg';
+                $currentImage = 'assets/images/weather/11.jpg';
+                $currentIcon = 'assets/images/icons/weather/11.svg';
                 break;
             case  'wind':
-                $currentIcon = 'assets/images/weather/103.jpg';
+                $currentImage = 'assets/images/weather/103.jpg';
+                $currentIcon = 'assets/images/icons/weather/103.svg';
                 break;
             default:
-                $currentIcon = 'NotsetCurrent';
+                $currentImage = 'NotsetCurrent';
 
 
         }
 
+
+        return (['time' => $currentTime, 'city' => $location,
+            'lat' => $lat, 'long' => $long, 'windspeed' => $windspeed,
+            'humidity' => $humidity, 'summary' => $summary, 'temp' => $temp, 'degree' => $degree, 'currentIcon' => $currentIcon, 'currentImage' => $currentImage]);
+
+    }
+
+    /**
+     * @return array
+     */
+    public function getLocation()
+    {
+
+        $currentTime = null;
+        $currentTime = Carbon::now()->toDayDateTimeString();
+        $title = 'weather page';
+        $ip = \Request::ip();
+
+        if ($ip == "127.0.0.1") {
+
+            $ip = '86.44.136.190';
+        } else {
+
+            $ip = \Request::ip();
+
+        }
+
+        $position = \Location::get($ip);
+
+        $location = $position->cityName;
+
+        $lat = $position->latitude;
+        $long = $position->longitude;
+
+        return (['lat' => $lat, 'long' => $long, 'currentTime' => $currentTime, 'city' => $location,]);
+
+    }
+
+
+    public function getDaily($weatherClass)
+    {
+        $lat = $weatherClass->getLocation()['lat'];
+        $long = $weatherClass->getLocation()['long'];
 
 
         $weatherDaily = \DarkSky::location($lat, $long)->includes(['daily'])->get();
@@ -109,97 +167,64 @@ class WeatherClass
             $icon = $weatherDaily->daily->data[$count]->icon;
 
 
-            $iconNumber = null;
+            $currentIcon = null;
             switch ($icon) {
 
                 case  'clear-day':
-                    $iconNumber = 'assets/images/icons/weather/01.svg';
+                    $currentIcon = 'assets/images/icons/weather/01.svg';
                     break;
                 case  'clear-night':
-                    $iconNumber = 'assets/images/icons/weather/01.svg';
+                    $currentIcon = 'assets/images/icons/weather/01.svg';
                     break;
                 case  'partly-cloudy-day':
-                    $iconNumber = 'assets/images/icons/weather/02.svg';
+                    $currentIcon = 'assets/images/icons/weather/02.svg';
                     break;
                 case  'cloudy':
-                    $iconNumber = 'assets/images/icons/weather/03.svg';
+                    $currentIcon = 'assets/images/icons/weather/03.svg';
                     break;
                 case  'partly-cloudy-night':
-                    $iconNumber = 'assets/images/icons/weather/04.svg';
+                    $currentIcon = 'assets/images/icons/weather/04.svg';
                     break;
                 case  'rain':
-                    $iconNumber = 'assets/images/icons/weather/09.svg';
+                    $currentIcon = 'assets/images/icons/weather/09.svg';
                     break;
                 case  'snow':
-                    $iconNumber = 'assets/images/icons/weather/13.svg';
+                    $currentIcon = 'assets/images/icons/weather/13.svg';
                     break;
                 case  'sleet':
-                    $iconNumber = 'assets/images/icons/weather/13.svg';
+                    $currentIcon = 'assets/images/icons/weather/13.svg';
                     break;
                 case  'fog':
-                    $iconNumber = 'assets/images/icons/weather/50.svg';
+                    $currentIcon = 'assets/images/icons/weather/50.svg';
                     break;
                 case  'sleet':
-                    $iconNumber = 'assets/images/icons/weather/13.svg';
+                    $currentIcon = 'assets/images/icons/weather/13.svg';
                     break;
                 case  'hail':
-                    $iconNumber = 'assets/images/icons/weather/104.svg';
+                    $currentIcon = 'assets/images/icons/weather/104.svg';
                     break;
                 case  'thunderstorm':
-                    $iconNumber = 'assets/images/icons/weather/11.svg';
+                    $currentIcon = 'assets/images/icons/weather/11.svg';
                     break;
 
                 case  'wind':
-                    $iconNumber = 'assets/images/icons/weather/103.svg';
+                    $currentIcon = 'assets/images/icons/weather/103.svg';
                     break;
                 default:
-                    $iconNumber = 'NotSet';
+                    $currentIcon = 'NotSet';
 
 
             }
 
             $dailySummary[] = array('summary' => $dailysummarytext, 'day' => $dayofWeek, 'date' => $date, 'humidity' => $humidity,
-                'low' => $lowTemp, 'high' => $highTemp, 'icon' => $iconNumber, 'weekDay' => $dayofWeekday,
+                'low' => $lowTemp, 'high' => $highTemp, 'icon' => $currentIcon, 'weekDay' => $dayofWeekday,
                 'sunrise' => $sunrise, 'sunset' => $sunset,);
 
 
         }
+        //dd($dailySummary);
+        return ($dailySummary);
 
-
-
-
-        return (['time' => $currrentTime, 'title' => $title, 'loc' => $location,
-            'lat' => $lat, 'long' => $long,  'ip' => $ip,
-            'dailyS' => $dailySummary,  'windspeed' => $windspeed, 'humidity' => $humidity,
-            'summary' => $summary, 'temp' => $temp, 'degree' => $degree, 'currentIcon' => $currentIcon]);
-
-    }
-
-    /**
-     * @return array
-     */
-    public function getLocation(): array
-    {
-        $currrentTime = Carbon::now()->toDayDateTimeString();
-        $title = 'weather page';
-        $ip = \Request::ip();
-
-        if ($ip == "127.0.0.1") {
-
-            $ip = '86.44.136.190';
-        } else {
-
-            $ip = \Request::ip();
-
-        }
-
-        $position = \Location::get($ip);
-
-        $location = $position->cityName;
-
-        $lat = $position->latitude;
-        $long = $position->longitude;
-        return array($currrentTime, $title, $ip, $location, $lat, $long);
     }
 
 
