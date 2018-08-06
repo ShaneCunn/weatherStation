@@ -153,9 +153,16 @@ class WeatherController extends Controller
 
         $weatherClass = new WeatherClass();
 
-        $forecast = $weatherClass->getWeather();
+        $lat = $weatherClass->getLocation()['lat'];
+        $long = $weatherClass->getLocation()['long'];
+        $currentTime = $weatherClass->getLocation()['currentTime'];
 
-        return view('weather.master', compact('forecast'));
+        $forecast = $weatherClass->getWeather($weatherClass);
+
+        $daily = $weatherClass->getDaily($weatherClass);
+      //  dd(compact('forecast', 'daily'));
+
+        return view('weather.master', compact('forecast', 'daily'));
 
 
     }

@@ -19,7 +19,7 @@
                            value="aa0520bfe3855ed4de2e828720f347ae7c60ec27d77304d592607564c654cb6b"> <input
                         type="hidden" name="favorite">
                     <input type="hidden" name="id" value="2964180">
-                    <input type="hidden" name="name" value="{{$forecast['loc']}}">
+                    <input type="hidden" name="name" value="{{$forecast['city']}}">
                 </form>
                 <div class="button-round-container" onclick="post('favorite')">
                     <div class="button-round favorite"></div>
@@ -28,7 +28,7 @@
             <div class="wn-location"><a href="https://meteo.test/location/2964180">Galway, IE</a></div>
 
             <div class="wn-box wn-temperature">{{$forecast['temp']}}° <img
-                    src="{{asset($forecast['dailyS'][0]['icon'])}}"
+                    src="{{asset($forecast['currentIcon'])}}"
                     class="wn-icon"></div>
 
             <div class="wn-box wn-conditions">

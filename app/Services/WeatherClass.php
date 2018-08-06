@@ -19,11 +19,15 @@ class WeatherClass
 {
 
 
-    public function getWeather()
+    public function getWeather($weatherClass)
     {
 
+        $lat = $weatherClass->getLocation()['lat'];
+        $long = $weatherClass->getLocation()['long'];
 
-        list($currrentTime, $title, $ip, $location, $lat, $long) = $this->getLocation();
+        $currentTime = $weatherClass->getLocation()['currentTime'];
+        $location = $weatherClass->getLocation()['city'];
+
 
         $units = 'si';
         $now = \DarkSky::location($lat, $long)->includes(['currently'])->units($units)->get();
@@ -80,6 +84,49 @@ class WeatherClass
 
         }
 
+
+        return (['time' => $currentTime, 'city' => $location,
+            'lat' => $lat, 'long' => $long,  'windspeed' => $windspeed,
+            'humidity' => $humidity, 'summary' => $summary, 'temp' => $temp, 'degree' => $degree, 'currentIcon' => $currentIcon]);
+
+    }
+
+    /**
+     * @return array
+     */
+    public function getLocation()
+    {
+
+        $currentTime = null;
+        $currentTime = Carbon::now()->toDayDateTimeString();
+        $title = 'weather page';
+        $ip = \Request::ip();
+
+        if ($ip == "127.0.0.1") {
+
+            $ip = '86.44.136.190';
+        } else {
+
+            $ip = \Request::ip();
+
+        }
+
+        $position = \Location::get($ip);
+
+        $location = $position->cityName;
+
+        $lat = $position->latitude;
+        $long = $position->longitude;
+
+        return (['lat' => $lat, 'long' => $long, 'currentTime' => $currentTime, 'city' => $location,]);
+
+    }
+
+
+    public function getDaily($weatherClass)
+    {
+        $lat = $weatherClass->getLocation()['lat'];
+        $long = $weatherClass->getLocation()['long'];
 
 
         $weatherDaily = \DarkSky::location($lat, $long)->includes(['daily'])->get();
@@ -164,42 +211,9 @@ class WeatherClass
 
 
         }
+        //dd($dailySummary);
+        return ($dailySummary);
 
-
-
-
-        return (['time' => $currrentTime, 'title' => $title, 'loc' => $location,
-            'lat' => $lat, 'long' => $long,  'ip' => $ip,
-            'dailyS' => $dailySummary,  'windspeed' => $windspeed, 'humidity' => $humidity,
-            'summary' => $summary, 'temp' => $temp, 'degree' => $degree, 'currentIcon' => $currentIcon]);
-
-    }
-
-    /**
-     * @return array
-     */
-    public function getLocation(): array
-    {
-        $currrentTime = Carbon::now()->toDayDateTimeString();
-        $title = 'weather page';
-        $ip = \Request::ip();
-
-        if ($ip == "127.0.0.1") {
-
-            $ip = '86.44.136.190';
-        } else {
-
-            $ip = \Request::ip();
-
-        }
-
-        $position = \Location::get($ip);
-
-        $location = $position->cityName;
-
-        $lat = $position->latitude;
-        $long = $position->longitude;
-        return array($currrentTime, $title, $ip, $location, $lat, $long);
     }
 
 
