@@ -57,6 +57,56 @@ class WeatherClass
         $temp = round($now->currently->temperature, 0);
         $degree = $now->currently->windBearing;
 
+        $icon = $now->currently->icon;
+
+        //   $currentIcon = $this->Geticon($iconCurrently);
+        $currentIcon = '';
+        //$icon = 'hail';
+
+        switch ($icon) {
+
+            case  'clear-day':
+                $currentIcon = 'assets/images/weather/01.jpg';
+                break;
+            case  'clear-night':
+                $currentIcon = 'assets/images/weather/01.jpg';
+                break;
+            case  'partly-cloudy-day':
+                $currentIcon = 'assets/images/weather/02.jpg';
+                break;
+            case  'cloudy':
+                $currentIcon = 'assets/images/weather/04.jpg';
+                break;
+            case  'partly-cloudy-night':
+                $currentIcon = 'assets/images/weather/02.jpg';
+                break;
+            case  'rain':
+                $currentIcon = 'assets/images/weather/09.jpg';
+                break;
+            case  'snow':
+                $currentIcon = 'assets/images/weather/13.jpg';
+                break;
+            case  'sleet':
+                $currentIcon = 'assets/images/weather/104.jpg';
+                break;
+            case  'fog':
+                $currentIcon = 'assets/images/weather/50.jpg';
+                break;
+            case  'hail':
+                $currentIcon = 'assets/images/weather/104.jpg';
+                break;
+            case  'thunderstorm':
+                $currentIcon = 'assets/images/weather/11.jpg';
+                break;
+            case  'wind':
+                $currentIcon = 'assets/images/weather/103.jpg';
+                break;
+            default:
+                $currentIcon = 'NotsetCurrent';
+
+
+        }
+
 
         $weather = \DarkSky::location($lat, $long)->get();
 
@@ -88,9 +138,6 @@ class WeatherClass
 
 
             $iconNumber = null;
-
-            //  $iconNumber = $this->weatherIcon($icon);
-
             switch ($icon) {
 
                 case  'clear-day':
@@ -130,17 +177,24 @@ class WeatherClass
                     $iconNumber = 'assets/images/icons/weather/11.svg';
                     break;
 
+                case  'wind':
+                    $iconNumber = 'assets/images/icons/weather/103.svg';
+                    break;
+                default:
+                    $iconNumber = 'NotSet';
+
+
             }
 
 
             $dailySummary[] = array('summary' => $dailysummarytext, 'day' => $dayofWeek, 'date' => $date, 'humidity' => $humidity,
                 'low' => $lowTemp, 'high' => $highTemp, 'icon' => $iconNumber, 'weekDay' => $dayofWeekday,
-                'sunrise' => $sunrise, 'sunset' => $sunset);
+                'sunrise' => $sunrise, 'sunset' => $sunset,);
 
-            $dailyDay[] = $dayofWeek;
 
 
         }
+
 
         $direction = null;
 
@@ -169,62 +223,14 @@ class WeatherClass
             return $winddir[round($item * 16 / 360)];
         }
 
-
+        //  dd($currentIcon);
         $direction = windRose($bearing);
 
         return (['time' => $currrentTime, 'title' => $title, 'loc' => $location,
             'lat' => $lat, 'long' => $long, 'weather' => $weather, 'direction' => $direction, 'ip' => $ip,
-            'dailyS' => $dailySummary, 'days' => $dailyDay, 'windspeed' => $windspeed, 'humidity' => $humidity,
-            'summary' => $summary, 'temp' => $temp, 'degree' => $degree]);
+            'dailyS' => $dailySummary,  'windspeed' => $windspeed, 'humidity' => $humidity,
+            'summary' => $summary, 'temp' => $temp, 'degree' => $degree, 'currentIcon' => $currentIcon]);
 
-    }
-
-
-    public function weatherIcon($icon): string
-    {
-
-        $iconNumber = '';
-        switch ($icon) {
-
-            case  'clear-day':
-                $iconNumber = 'assets/images/icons/weather/01.svg';
-                break;
-            case  'clear-night':
-                $iconNumber = 'assets/images/icons/weather/01.svg';
-                break;
-            case  'partly-cloudy-day':
-                $iconNumber = 'assets/images/icons/weather/02.svg';
-                break;
-            case  'cloudy':
-                $iconNumber = 'assets/images/icons/weather/03.svg';
-                break;
-            case  'partly-cloudy-night':
-                $iconNumber = 'assets/images/icons/weather/04.svg';
-                break;
-            case  'rain':
-                $iconNumber = 'assets/images/icons/weather/09.svg';
-                break;
-            case  'snow':
-                $iconNumber = 'assets/images/icons/weather/13.svg';
-                break;
-            case  'sleet':
-                $iconNumber = 'assets/images/icons/weather/13.svg';
-                break;
-            case  'fog':
-                $iconNumber = 'assets/images/icons/weather/50.svg';
-                break;
-            case  'sleet':
-                $iconNumber = 'assets/images/icons/weather/13.svg';
-                break;
-            case  'hail':
-                $iconNumber = 'assets/images/icons/weather/104.svg';
-                break;
-            case  'thunderstorm':
-                $iconNumber = 'assets/images/icons/weather/11.svg';
-                break;
-
-        }
-        return $iconNumber;
     }
 
 

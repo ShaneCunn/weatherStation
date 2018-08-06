@@ -2,7 +2,7 @@
 
     <div class="row">
         <div
-            style="background-image: linear-gradient(var(--cover-top), var(--cover-bottom)), url('{{asset('assets/images/weather/04.jpg')}}');"
+            style="background-image: linear-gradient(var(--cover-top), var(--cover-bottom)), url('{{asset($forecast['currentIcon'])}}');"
             class="weather-now">
             <div class="wn-title">Weather
                 <form id="format">
@@ -27,8 +27,9 @@
             </div>
             <div class="wn-location"><a href="https://meteo.test/location/2964180">Galway, IE</a></div>
 
-            <div class="wn-box wn-temperature">{{$forecast['temp']}}° <img src="{{asset('assets/images/icons/weather/04.svg ')}}"
-                                                               class="wn-icon"></div>
+            <div class="wn-box wn-temperature">{{$forecast['temp']}}° <img
+                    src="{{asset($forecast['dailyS'][0]['icon'])}}"
+                    class="wn-icon"></div>
 
             <div class="wn-box wn-conditions">
                 <div class="wn-box-condition-row"><img src="{{asset('assets/images/icons/conditions/condition.svg')}}">
