@@ -151,12 +151,7 @@ class WeatherController extends Controller
     public function getModel()
     {
 
-
-
-
         $weatherClass = new WeatherClass();
-
-
 
         $forecast = $weatherClass->getWeather();
 

@@ -23,25 +23,7 @@ class WeatherClass
     {
 
 
-        $currrentTime = Carbon::now()->toDayDateTimeString();
-        $title = 'weather page';
-        $ip = \Request::ip();
-
-        if ($ip == "127.0.0.1") {
-
-            $ip = '86.44.136.190';
-        } else {
-
-            $ip = \Request::ip();
-
-        }
-
-        $position = \Location::get($ip);
-
-        $location = $position->cityName;
-
-        $lat = $position->latitude;
-        $long = $position->longitude;
+        list($currrentTime, $title, $ip, $location, $lat, $long) = $this->getLocation();
 
         $units = 'si';
         $now = \DarkSky::location($lat, $long)->includes(['currently'])->units($units)->get();
@@ -99,7 +81,6 @@ class WeatherClass
         }
 
 
-        $weather = \DarkSky::location($lat, $long)->get();
 
         $weatherDaily = \DarkSky::location($lat, $long)->includes(['daily'])->get();
 
@@ -183,17 +164,42 @@ class WeatherClass
 
 
         }
-        $direction = null;
 
-        $bearing = $weather->currently->windBearing;
 
 
 
         return (['time' => $currrentTime, 'title' => $title, 'loc' => $location,
-            'lat' => $lat, 'long' => $long, 'weather' => $weather, 'ip' => $ip,
+            'lat' => $lat, 'long' => $long,  'ip' => $ip,
             'dailyS' => $dailySummary,  'windspeed' => $windspeed, 'humidity' => $humidity,
             'summary' => $summary, 'temp' => $temp, 'degree' => $degree, 'currentIcon' => $currentIcon]);
 
+    }
+
+    /**
+     * @return array
+     */
+    public function getLocation(): array
+    {
+        $currrentTime = Carbon::now()->toDayDateTimeString();
+        $title = 'weather page';
+        $ip = \Request::ip();
+
+        if ($ip == "127.0.0.1") {
+
+            $ip = '86.44.136.190';
+        } else {
+
+            $ip = \Request::ip();
+
+        }
+
+        $position = \Location::get($ip);
+
+        $location = $position->cityName;
+
+        $lat = $position->latitude;
+        $long = $position->longitude;
+        return array($currrentTime, $title, $ip, $location, $lat, $long);
     }
 
 
