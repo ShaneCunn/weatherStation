@@ -85,7 +85,6 @@
                 <div class="links">
 
                     <a href="/weather">Weather</a>
-                    <a href="/model">Model</a>
                     <a href="https://laravel.com/docs">Documentation</a>
 
             </div>

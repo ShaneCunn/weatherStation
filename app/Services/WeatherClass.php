@@ -17,12 +17,6 @@ use GuzzleHttp\Client;
 
 class WeatherClass
 {
-    public function getPrices()
-    {
-        return ['bronze' => 50, 'silver' => 100, 'gold' => 150];
-
-
-    }
 
 
     public function getWeather()
@@ -59,9 +53,6 @@ class WeatherClass
 
         $icon = $now->currently->icon;
 
-        //   $currentIcon = $this->Geticon($iconCurrently);
-        $currentIcon = '';
-        //$icon = 'hail';
 
         switch ($icon) {
 
@@ -186,44 +177,17 @@ class WeatherClass
 
             }
 
-
             $dailySummary[] = array('summary' => $dailysummarytext, 'day' => $dayofWeek, 'date' => $date, 'humidity' => $humidity,
                 'low' => $lowTemp, 'high' => $highTemp, 'icon' => $iconNumber, 'weekDay' => $dayofWeekday,
                 'sunrise' => $sunrise, 'sunset' => $sunset,);
 
 
-
         }
-
-
         $direction = null;
 
         $bearing = $weather->currently->windBearing;
 
 
-        function windRose($item)
-        {
-            $winddir[] = "North";
-            $winddir[] = "North North East";
-            $winddir[] = "North East";
-            $winddir[] = "East North East";
-            $winddir[] = "East";
-            $winddir[] = "East South East";
-            $winddir[] = "South East";
-            $winddir[] = "South South East";
-            $winddir[] = "South";
-            $winddir[] = "South South West";
-            $winddir[] = "South West";
-            $winddir[] = "West South West";
-            $winddir[] = "West";
-            $winddir[] = "West North West";
-            $winddir[] = "North West";
-            $winddir[] = "North North West";
-            $winddir[] = "North";
-            return $winddir[round($item * 16 / 360)];
-        }
-
-        //  dd($currentIcon);
         $direction = windRose($bearing);
 
         return (['time' => $currrentTime, 'title' => $title, 'loc' => $location,
