@@ -63,6 +63,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
+
+        celicus();
         var cel = "{{$forecast['temp']}}";
         var fah = Math.round({{$forecast['temp']}}  * 9 / 5 + 32
     )
@@ -102,7 +104,7 @@
                     $("#max" + i).text(maxNums[i] + "°");
                     $("#low" + i).text(lowNums[i] + "°");
                 }
-
+                celicus();
 
             } else {
                 $(this).removeClass('format-c');
@@ -120,6 +122,8 @@
                     $("#max" + i).text(Math.round(maxNums[i] * 9 / 5 + 32) + "°");
                     $("#low" + i).text(Math.round(lowNums[i] * 9 / 5 + 32) + "°");
                 }
+
+                fahrenheit();
 
             }
         });
