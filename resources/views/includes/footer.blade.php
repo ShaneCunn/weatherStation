@@ -58,8 +58,77 @@
         <div class="timezone">Timezone: GMT+00:00</div>
     </div>
 </div>
-
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var cel = "{{$forecast['temp']}}";
+        var fah = Math.round({{$forecast['temp']}}  * 9 / 5 + 32
+    )
+        ;
+
+        var maxNums = [];
+        var lowNums = [];
+
+        for (var i = 0; i <= 4; i++) {
+
+
+            var maxNum = parseInt(document.getElementById("max" + i).textContent);
+            var lowNum = parseInt(document.getElementById("low" + i).textContent);
+            maxNums.push(maxNum);
+            lowNums.push(lowNum);
+        }
+
+
+        $(".wn-temperature").prepend(cel + "°");
+
+        $("#windSpeed").text("Wind speed: {{$forecast['windspeed']}} km/h");
+        $('.format-c').click(function () {
+            var $this = $(this);
+            $this.toggleClass('format-c');
+
+            if ($this.hasClass('format-c')) {
+                $(this).removeClass('format-f');
+                $(this).addClass('format-c');
+                $(".wn-temperature").empty();
+                $(".wn-temperature").prepend(cel + "° " + "<img\n" +
+                    "                    src=\"{{asset($forecast['currentIcon'])}}\"\n" +
+                    "                    class=\"wn-icon\">");
+                $("#windSpeed").empty();
+                $("#windSpeed").text("Wind speed: {{$forecast['windspeed']}} km/h");
+
+                for (var i = 0; i <= 5; i++) {
+                    $("#max" + i).text(maxNums[i] + "°");
+                    $("#low" + i).text(lowNums[i] + "°");
+                }
+
+
+            } else {
+                $(this).removeClass('format-c');
+                $(this).toggleClass('format-f');
+                $(".wn-temperature").empty();
+                $(".wn-temperature").prepend(fah + "° " + "<img\n" +
+                    "                    src=\"{{asset($forecast['currentIcon'])}}\"\n" +
+                    "                    class=\"wn-icon\">")
+                $("#windSpeed").text("Wind speed: " + Math.round({{$forecast['windspeed']}}* 0.6213711922) + " Mph"
+            )
+                ;
+
+                for (var i = 0; i <= 4; i++) {
+
+                    $("#max" + i).text(Math.round(maxNums[i] * 9 / 5 + 32) + "°");
+                    $("#low" + i).text(Math.round(lowNums[i] * 9 / 5 + 32) + "°");
+                }
+
+            }
+        });
+
+
+    });
+
+
+</script>
 <footer id="footer" class="footer">
     <div class="footer-content">
         <div class="footer-menu">
