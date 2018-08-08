@@ -160,9 +160,11 @@ class WeatherController extends Controller
         $forecast = $weatherClass->getWeather($weatherClass);
 
         $daily = $weatherClass->getDaily($weatherClass);
-      //  dd(compact('forecast', 'daily'));
+        //  dd(compact('forecast', 'daily'));
+        $cel = 22;
+        $fah = $cel * 9 / 5 + 32;
 
-        return view('weather.master', compact('forecast', 'daily'));
+        return view('weather.master', ['cel' => $cel, 'fah' => $fah],compact('forecast', 'daily'));
 
 
     }
@@ -216,6 +218,17 @@ class WeatherController extends Controller
 
         }
         return $iconNumber;
+    }
+
+
+    public function getButton()
+    {
+
+        $title = 'Button Test';
+        $cel = 22;
+        $fah = $cel * 9 / 5 + 32;
+        return view('button', ['title' => $title, 'cel' => $cel, 'fah' => $fah]);
+
     }
 
 }

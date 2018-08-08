@@ -10,8 +10,8 @@
                            value="aa0520bfe3855ed4de2e828720f347ae7c60ec27d77304d592607564c654cb6b"> <input
                         type="hidden" name="format" value="1">
                 </form>
-                <div class="button-round-container" onclick="post('format')">
-                    <div class="button-round format-c"></div>
+                <div class="button-round-container">
+                    <div class="button-round format-c" id="temp"></div>
                 </div>
 
                 <form id="favorite">
@@ -25,9 +25,11 @@
                     <div class="button-round favorite"></div>
                 </div>
             </div>
+
+
             <div class="wn-location"><a href="https://meteo.test/location/2964180">Galway, IE</a></div>
 
-            <div class="wn-box wn-temperature">{{$forecast['temp']}}° <img
+            <div class="wn-box wn-temperature"> <img
                     src="{{asset($forecast['currentIcon'])}}"
                     class="wn-icon"></div>
 
@@ -42,7 +44,7 @@
             </div>
             <div class="wn-box wn-conditions">
                 <div class="wn-box-condition-row"><img src="{{asset('assets/images/icons/conditions/speed.svg')}}">
-                    <div class="wn-conditions-text">Wind speed: {{$forecast['windspeed']}} km/h</div>
+                    <div class="wn-conditions-text" id="windSpeed">Wind speed: {{$forecast['windspeed']}} km/h</div>
                 </div>
 
                 <div class="wn-box-condition-row"><img src="{{asset('assets/images/icons/conditions/direction.svg')}}"
