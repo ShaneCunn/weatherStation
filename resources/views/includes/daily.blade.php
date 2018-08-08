@@ -1,7 +1,7 @@
 <div class="row">
     <div class="weather-forecast daily">
         <div class="wf-title">Daily Forecast</div>
-        <div>
+        <div><?php $count = 0; ?>
             @foreach($daily as $key => $value)
                 <a href="https://meteo.test/location/2964180/day/02" class="wf-list">
                     <div class="wf-list-col wf-date">
@@ -25,11 +25,13 @@
                                 src="{{asset($value['icon'])}}"
                                 class="wf-icon"></div>
                         <div class="wf-temp">
-                            <div class="wf-temp-max">{{$value['high']}}°</div>
-                            <div class="wf-temp-min">{{$value['low']}}°</div>
+                            <div class="wf-temp-max" id="max{{$count}}">{{$value['high']}}°</div>
+                            <div class="wf-temp-min"id="low{{$count}}">{{$value['low']}}°</div>
+
                         </div>
                     </div>
                 </a>
+                <?php $count++; ?>
             @endforeach
 
         </div>
