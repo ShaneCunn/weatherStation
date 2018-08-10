@@ -9,8 +9,10 @@ use Naughtonium\LaravelDarkSky\DarkSky;
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
+use Gmopx\LaravelOWM\LaravelOWM;
 
 use App\Services\WeatherClass;
+
 
 
 class WeatherController extends Controller
@@ -164,7 +166,7 @@ class WeatherController extends Controller
         $cel = 22;
         $fah = $cel * 9 / 5 + 32;
 
-        return view('weather.master', ['cel' => $cel, 'fah' => $fah],compact('forecast', 'daily'));
+        return view('weather.master', ['cel' => $cel, 'fah' => $fah], compact('forecast', 'daily'));
 
 
     }
@@ -230,5 +232,42 @@ class WeatherController extends Controller
         return view('button', ['title' => $title, 'cel' => $cel, 'fah' => $fah]);
 
     }
+
+
+    public function getDay()
+    {
+        $currrentTime = Carbon::now()->toDayDateTimeString();
+        $ip = \Request::ip();
+
+        if ($ip == "127.0.0.1") {
+
+            $ip = '86.44.136.190';
+        } else {
+
+            $ip = \Request::ip();
+
+        }
+
+        $position = \Location::get($ip);
+
+        //dd($location);
+        $lat = $position->latitude;
+        $long = $position->longitude;
+
+        $units = 'si';
+        $dayhour = \DarkSky::location($lat, $long)->hourly();
+       // $dailysummarytext = $dayhour->hourly->data->summary;
+       // dd($dayhour);
+
+        $lowm = new LaravelOWM();
+        $forecast = $lowm->getWeatherForecast('Galway');
+
+        dd($forecast);
+
+        // $windspeed = round($now->currently->windSpeed, 1);
+
+        return view('weather.master', ['time' => $currrentTime,]);
+    }
+
 
 }
