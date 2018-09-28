@@ -254,19 +254,35 @@ class WeatherController extends Controller
         $lat = $position->latitude;
         $long = $position->longitude;
 
-        $units = 'si';
+        $units = 'Metric';
         $dayhour = \DarkSky::location($lat, $long)->hourly();
        // $dailysummarytext = $dayhour->hourly->data->summary;
        // dd($dayhour);
 
-        $lowm = new LaravelOWM();
+        $apiKEy= 'd8c207a8f9644f4fe04d26bce82adbb2';
+
+        $lowm = new LaravelOWM($apiKEy);
         $forecast = $lowm->getWeatherForecast('Galway');
 
-        dd($forecast);
+       // dd($forecast);
 
-        // $windspeed = round($now->currently->windSpeed, 1);
+        $forecast = $lowm->getWeatherForecast('Galway', $units,'', 5);
+        var_dump($forecast);
+         dd($forecast);
+        echo "EXAMPLE 2<hr />\n\n\n";
 
-        return view('weather.master', ['time' => $currrentTime,]);
+        foreach ($forecast as $weather) {
+            echo "Weather forecast at " . $weather->time->day->format('d.m.Y') . " from " . $weather->time->from->format('H:i') . " to " . $weather->time->to->format('H:i') . "<br />";
+            echo $weather->temperature . "<br />\n";
+
+          //  echo $weather->das
+            echo "<br />\n";
+            echo "Sun rise: " . $weather->sun->rise->format('d.m.Y H:i (e)');
+            echo "<br />\n";
+            echo "---<br />\n";
+        }
+
+        //return view('weather.master', ['time' => $currrentTime,]);
     }
 
 
