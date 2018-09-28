@@ -9,8 +9,10 @@ use Naughtonium\LaravelDarkSky\DarkSky;
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
+use Gmopx\LaravelOWM\LaravelOWM;
 
 use App\Services\WeatherClass;
+
 
 
 class WeatherController extends Controller
@@ -164,7 +166,7 @@ class WeatherController extends Controller
         $cel = 22;
         $fah = $cel * 9 / 5 + 32;
 
-        return view('weather.master', ['cel' => $cel, 'fah' => $fah],compact('forecast', 'daily'));
+        return view('weather.master', ['cel' => $cel, 'fah' => $fah], compact('forecast', 'daily'));
 
 
     }
@@ -230,5 +232,58 @@ class WeatherController extends Controller
         return view('button', ['title' => $title, 'cel' => $cel, 'fah' => $fah]);
 
     }
+
+
+    public function getDay()
+    {
+        $currrentTime = Carbon::now()->toDayDateTimeString();
+        $ip = \Request::ip();
+
+        if ($ip == "127.0.0.1") {
+
+            $ip = '86.44.136.190';
+        } else {
+
+            $ip = \Request::ip();
+
+        }
+
+        $position = \Location::get($ip);
+
+        //dd($location);
+        $lat = $position->latitude;
+        $long = $position->longitude;
+
+        $units = 'Metric';
+        $dayhour = \DarkSky::location($lat, $long)->hourly();
+       // $dailysummarytext = $dayhour->hourly->data->summary;
+       // dd($dayhour);
+
+        $apiKEy= 'd8c207a8f9644f4fe04d26bce82adbb2';
+
+        $lowm = new LaravelOWM($apiKEy);
+        $forecast = $lowm->getWeatherForecast('Galway');
+
+       // dd($forecast);
+
+        $forecast = $lowm->getWeatherForecast('Galway', $units,'', 5);
+        var_dump($forecast);
+         dd($forecast);
+        echo "EXAMPLE 2<hr />\n\n\n";
+
+        foreach ($forecast as $weather) {
+            echo "Weather forecast at " . $weather->time->day->format('d.m.Y') . " from " . $weather->time->from->format('H:i') . " to " . $weather->time->to->format('H:i') . "<br />";
+            echo $weather->temperature . "<br />\n";
+
+          //  echo $weather->das
+            echo "<br />\n";
+            echo "Sun rise: " . $weather->sun->rise->format('d.m.Y H:i (e)');
+            echo "<br />\n";
+            echo "---<br />\n";
+        }
+
+        //return view('weather.master', ['time' => $currrentTime,]);
+    }
+
 
 }

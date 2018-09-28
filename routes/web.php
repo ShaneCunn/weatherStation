@@ -24,3 +24,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/weather', 'WeatherController@getModel');
 
 Route::get('/button', 'WeatherController@getButton');
+
+Route::get('/day', 'WeatherController@getDay');

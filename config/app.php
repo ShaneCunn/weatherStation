@@ -163,6 +163,8 @@ return [
 
         Naughtonium\LaravelDarkSky\LaravelDarkSkyServiceProvider::class,
         Stevebauman\Location\LocationServiceProvider::class,
+
+        Gmopx\LaravelOWM\LaravelOWMServiceProvider::class,
     ],
 
     /*
@@ -215,6 +217,8 @@ return [
 
         'DarkSky' => \Naughtonium\LaravelDarkSky\Facades\DarkSky::class,
         'Location' => Stevebauman\Location\Facades\Location::class,
+
+
     ],
 
 ];

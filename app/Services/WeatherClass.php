@@ -38,7 +38,7 @@ class WeatherClass
         $degree = $now->currently->windBearing;
 
         $icon = $now->currently->icon;
-
+        $currentIcon = null;
 
         switch ($icon) {
 
