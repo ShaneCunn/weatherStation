@@ -39,7 +39,7 @@ class WeatherClass
 
         $icon = $now->currently->icon;
         $currentIcon = null;
-        
+
         switch ($icon) {
 
             case  'clear-day':
