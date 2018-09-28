@@ -21,3 +21,7 @@ weatherStation/\.idea/vcs\.xml
 weatherStation/\.idea/weatherStation\.iml
 
 weatherStation/\.idea/workspace\.xml
+
+weatherStation/\.idea/
+
+package-lock\.json
